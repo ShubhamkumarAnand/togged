@@ -1,16 +1,10 @@
-import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction } from "@remix-run/node";
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
+import tailwindcss from "~/globals.css";
 
 export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+  { rel: "stylesheet", href: tailwindcss },
+  { rel: "icon", type: "image/xml+svg", href: "/favicon.svg" },
 ];
 
 export default function App() {
@@ -22,7 +16,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-500 via-gray-700 to-black">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
