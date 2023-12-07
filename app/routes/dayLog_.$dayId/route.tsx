@@ -1,38 +1,45 @@
-import { type ActionFunctionArgs, json, redirect } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { db } from "~/db/prisma";
-import formatPrismaDate from "~/lib/dateFormatter";
-import AddNotes from "~/routes/notes/AddNotes";
-import DeleteButton from "~/routes/notes/DeleteButton";
+import { getTime } from "~/lib/dateFormatter";
+import AddNotes from "~/routes/dayLog_.$dayId/AddNotes";
+import DeleteButton from "~/routes/dayLog_.$dayId/DeleteButton";
 
-export async function loader() {
+export async function loader({ params }: LoaderFunctionArgs) {
   const notes = await db.note.findMany({
+    where: {
+      dayLogId: params.dayId as string,
+    },
     orderBy: {
-      createdAt: "desc",
+      updatedAt: "desc",
     },
   });
   return json({ notes });
 }
 
-export async function action({ request }: ActionFunctionArgs) {
+export async function action({ request, params }: ActionFunctionArgs) {
   const formData = await request.formData();
   const { _action } = Object.fromEntries(formData);
+  const dayId = (await params.dayId) as string;
   if (_action === "create") {
     await db.note.create({
       data: {
         category: formData.get("category") as string,
         description: formData.get("description") as string,
+        dayLogId: params.dayId as string,
       },
     });
   }
   if (_action === "delete") {
     await db.note.delete({
       where: {
+        dayLogId: params.dayId as string,
         id: formData.get("id") as string,
       },
     });
   }
-  return redirect("/notes");
+  return redirect(`/dayLog/${dayId}`);
 }
 
 export default function Notes() {
@@ -46,7 +53,7 @@ export default function Notes() {
         {notes.map((note) => (
           <div className="text-gray-500" key={note.id}>
             <div className="flex justify-between items-center max-w-xl">
-              <h3 className="text-gray-300 text-sm font-bold">{formatPrismaDate(note.createdAt)}</h3>
+              <h3 className="text-gray-300 text-sm font-semibold">{getTime(note.updatedAt)}</h3>
               <DeleteButton id={note.id} />
             </div>
             <p className="text-xs -mt-2 mb-2">{note.category}</p>

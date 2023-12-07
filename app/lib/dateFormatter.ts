@@ -1,4 +1,4 @@
-export default function formatPrismaDate(prismaDate: string): string {
+export function formatPrismaDate(prismaDate: string): string {
   const dateObject = new Date(prismaDate);
 
   const dayOfWeek = dateObject.toLocaleDateString("en-US", { weekday: "short" });
@@ -7,4 +7,12 @@ export default function formatPrismaDate(prismaDate: string): string {
   const year = dateObject.getFullYear();
 
   return `${dayOfWeek}, ${day} ${month} - ${year}`;
+}
+
+export function getTime(prismaDate: string): string {
+  const dateObject = new Date(prismaDate);
+  const hour = dateObject.getHours();
+  const minute = dateObject.getMinutes();
+  const ampm = hour >= 12 ? "PM" : "AM";
+  return `${hour}:${minute} ${ampm}`;
 }

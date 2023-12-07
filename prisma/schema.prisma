@@ -7,10 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Day {
+  id        String   @id @default(cuid())
+  description String?
+  createdAt DateTime @default(now())
+  notes     Note[]
+}
+
 model Note {
   id          String   @id @default(cuid())
   description String
   category    String
-  createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  dayLog      Day?  @relation(fields: [dayLogId], references: [id])
+  dayLogId    String?
 }

@@ -7,9 +7,10 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
+    // Homepage which contains login/logout button and marketing place
     <div className="min-h-screen mt-16 mx-48 text-gray-300 flex flex-col gap-2">
       <h1 className="text-xl font-bold">Toggler</h1>
-      <Link to="/notes" className="underline" prefetch="intent">
+      <Link to="/dayLog" className="underline" prefetch="intent">
         Notes
       </Link>
     </div>

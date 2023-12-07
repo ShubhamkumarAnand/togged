@@ -1,6 +1,6 @@
 import { Form } from "@remix-run/react";
 import { Textarea } from "~/components/ui/textarea";
-import NotesCategory from "~/routes/notes/NotesCategory";
+import NotesCategory from "~/routes/dayLog_.$dayId/NotesCategory";
 
 export default function AddNotes() {
   return (
