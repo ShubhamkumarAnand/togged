@@ -8,10 +8,10 @@ datasource db {
 }
 
 model Day {
-  id        String   @id @default(cuid())
+  id          String   @id @default(cuid())
   description String?
-  createdAt DateTime @default(now())
-  notes     Note[]
+  createdAt   DateTime @default(now())
+  notes       Note[]
 }
 
 model Note {
@@ -19,6 +19,6 @@ model Note {
   description String
   category    String
   updatedAt   DateTime @updatedAt
-  dayLog      Day?  @relation(fields: [dayLogId], references: [id])
+  dayLog      Day?     @relation(fields: [dayLogId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   dayLogId    String?
 }

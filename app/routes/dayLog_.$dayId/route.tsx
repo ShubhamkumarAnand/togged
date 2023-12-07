@@ -45,7 +45,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 export default function Notes() {
   const { notes } = useLoaderData<typeof loader>();
   return (
-    <main className="mt-16 mx-36 flex flex-col gap-3 min-h-screen">
+    <main className="mt-16 lg:mx-60 flex flex-col gap-3 min-h-screen">
       <h1 className="font-bold text-4xl mb-5 text-gray-300">Togged</h1>
       <AddNotes />
       <h1 className="text-3xl font-semibold text-gray-300 mt-10 underline">List of Notes</h1>
